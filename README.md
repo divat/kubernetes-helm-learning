@@ -1,4 +1,4 @@
-# Product Order – Kubernetes Deployment Using Helm
+# Kubernetes Deployment Using Helm
 
 ## Project Overview
 
