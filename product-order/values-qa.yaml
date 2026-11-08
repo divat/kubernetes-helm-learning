@@ -1,0 +1,11 @@
+productApi:
+  database:
+    name: productdb_qa
+
+orderService:
+  replicas: 2
+  database:
+    name: orderdb_qa
+
+ingress:
+  host: qa.localenv

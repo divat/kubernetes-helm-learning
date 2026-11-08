@@ -1,0 +1,10 @@
+productApi:
+  database:
+    name: productdb
+
+orderService:
+  database:
+    name: orderdb
+
+ingress:
+  host: dev.localenv

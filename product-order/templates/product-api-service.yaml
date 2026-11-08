@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "product-order.fullname" . }}-product-api
+  labels:
+    {{- include "product-order.labels" . | nindent 4 }}
+    app: product-api
+
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.productApi.service.port }}
+      targetPort: {{ .Values.productApi.containerPort }}
+      protocol: TCP
+      name: http
+
+  selector:
+    app: product-api
+    {{- include "product-order.selectorLabels" . | nindent 4 }}

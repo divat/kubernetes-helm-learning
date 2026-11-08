@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "product-order.fullname" . }}-product-api
+  labels:
+    {{- include "product-order.labels" . | nindent 4 }}
+    app: product-api
+
+spec:
+  replicas: {{ .Values.productApi.replicas }}
+
+  selector:
+    matchLabels:
+      app: product-api
+      {{- include "product-order.selectorLabels" . | nindent 6 }}
+
+  template:
+    metadata:
+      labels:
+        app: product-api
+        {{- include "product-order.selectorLabels" . | nindent 8 }}
+
+    spec:
+      containers:
+        - name: product-api
+          image: "{{ .Values.productApi.image.repository }}:{{ .Values.productApi.image.tag }}"
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: {{ .Values.productApi.containerPort }}
+
+          env:
+            - name: DB_HOST
+              value: {{ .Values.postgres.host | quote }}
+
+            - name: DB_PORT
+              value: {{ .Values.postgres.port | quote }}
+
+            - name: DB_NAME
+              value: {{ .Values.productApi.database.name | quote }}
+
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.postgres.secretName }}
+                  key: POSTGRES_USER
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.postgres.secretName }}
+                  key: POSTGRES_PASSWORD

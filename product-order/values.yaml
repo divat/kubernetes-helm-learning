@@ -1,0 +1,32 @@
+environment: default
+
+postgres:
+  host: postgres-service.default.svc.cluster.local
+  port: "5432"
+  secretName: postgres-secret
+
+productApi:
+  replicas: 1
+  image:
+    repository: diva2505/product-catalog-service
+    tag: "3.0"
+  containerPort: 8084
+  #database:
+   # name: productdb
+  service:
+    port: 8084
+
+orderService:
+  replicas: 1
+  image:
+    repository: diva2505/order-service
+    tag: "1.0"
+  containerPort: 8085
+  #database:
+   # name: orderdb
+  service:
+    port: 8085
+
+ingress:
+  enabled: true
+  host: ""
